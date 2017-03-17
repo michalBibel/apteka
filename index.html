@@ -1,17 +1,136 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Apteka Centrum</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <link href="" rel="stylesheet">
-</head>
+<title>Apteka Centrum Poznań</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="js/smoothScroll.js"></script>
+<style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: "Lato", sans-serif
+    }
+    
+    .w3-bar,
+    h1,
+    button {
+        font-family: "Montserrat", sans-serif
+    }
+    
+    .fa-anchor,
+    .fa-coffee {
+        font-size: 200px
+    }
+    
+    img.logo {
+        width: 980px;
+        max-width: 100%;
+    }
+</style>
 
 <body>
-    <img src="img/logo.png">
+
+    <!-- Navbar -->
+    <div class="w3-top">
+        <div class="w3-bar w3-blue w3-card-2 w3-left-align w3-large">
+            <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+            <a data-scroll href="#news" class="w3-bar-item w3-button w3-padding-large w3-white">Aktualności</a>
+            <a data-scroll href="#hours" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Godziny otwarcia</a>
+            <a data-scroll href="#about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">O Aptece</a>
+            <a data-scroll href="#patient" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Dla pacjenta</a>
+            <a data-scroll href="#contact" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Kontakt i lokalizacja</a>
+        </div>
+
+        <!-- Navbar on small screens -->
+        <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+            <a data-scroll href="#news" class="w3-bar-item w3-button w3-padding-large">Aktualności</a>
+            <a data-scroll href="#hours" class="w3-bar-item w3-button w3-padding-large">Godziny otwarcia</a>
+            <a data-scroll href="#about" class="w3-bar-item w3-button w3-padding-large">O Aptece</a>
+            <a data-scroll href="#patient" class="w3-bar-item w3-button w3-padding-large">Dla pacjenta</a>
+            <a data-scroll href="#contact" class="w3-bar-item w3-button w3-padding-large">Kontakt i lokalizacja</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="w3-container w3-blue w3-center w3-padding-128">
+        <!--<h1 class="w3-margin w3-jumbo">START PAGE</h1>-->
+        <!--<p class="w3-xlarge">Template by w3.css</p>-->
+        <!--<button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button>-->
+        <img class="logo" src="img\logo.png">
+    </header>
+
+    <!-- First Grid -->
+    <div id="news" class="w3-row-padding w3-padding-64 w3-container">
+        <div class="w3-content">
+            <div class="w3-twothird">
+                <h1>Lorem Ipsum</h1>
+                <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+
+                <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+
+            <div class="w3-third w3-center">
+                <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Grid -->
+    <div id="hours" class="w3-row-padding w3-light-blue w3-padding-64 w3-container">
+        <div class="w3-content">
+            <div class="w3-third w3-center">
+                <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
+            </div>
+
+            <div class="w3-twothird">
+                <h1>Lorem Ipsum</h1>
+                <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+
+                <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+        <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
+    </div>-->
+
+    <!-- Footer -->
+    <!--<footer class="w3-container w3-padding-64 w3-center w3-opacity">
+        <div class="w3-xlarge w3-padding-32">
+            <a href="#" class="w3-hover-text-indigo"><i class="fa fa-facebook-official"></i></a>
+            <a href="#" class="w3-hover-text-red"><i class="fa fa-pinterest-p"></i></a>
+            <a href="#" class="w3-hover-text-light-blue"><i class="fa fa-twitter"></i></a>
+            <a href="#" class="w3-hover-text-grey"><i class="fa fa-flickr"></i></a>
+            <a href="#" class="w3-hover-text-indigo"><i class="fa fa-linkedin"></i></a>
+        </div>
+    </footer>-->
+
+    <script>
+        // Used to toggle the menu on small screens when clicking on the menu button
+        function myFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+        smoothScroll.init();
+    </script>
+
 </body>
 
 </html>
