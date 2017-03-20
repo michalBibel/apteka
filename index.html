@@ -31,7 +31,10 @@
     }
     
     .fa-anchor,
-    .fa-coffee {
+    .fa-coffee,
+    .fa-clock-o,
+    .fa-info-circle,
+    .fa-map-marker {
         font-size: 200px
     }
     
@@ -44,6 +47,10 @@
     .w3-hover-blue:hover {
         color: #fff!important;
         background-color: #00adef!important
+    }
+
+    .w3-text-blue {
+        color: #00adef!important
     }
     
     .w3-padding-64-13 {
@@ -62,26 +69,26 @@
     <div class="w3-top">
         <div class="w3-bar w3-blue w3-card-2 w3-left-align w3-large">
             <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-            <a data-scroll href="#news" class="w3-bar-item w3-button w3-padding-large w3-white">Aktualności</a>
+            <a data-scroll href="#home" class="w3-bar-item w3-button w3-padding-large w3-white">Apteka Centrum</a>
+            <a data-scroll href="#news" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Aktualności</a>
             <a data-scroll href="#hours" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Godziny otwarcia</a>
             <a data-scroll href="#about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">O Aptece</a>
-            <a data-scroll href="#patient" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Dla pacjenta</a>
             <a data-scroll href="#contact" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Kontakt i lokalizacja</a>
         </div>
 
         <!-- Navbar on small screens -->
         <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+            <a data-scroll href="#home" class="w3-bar-item w3-button w3-padding-large">Apteka Centrum</a>
             <a data-scroll href="#news" class="w3-bar-item w3-button w3-padding-large">Aktualności</a>
             <a data-scroll href="#hours" class="w3-bar-item w3-button w3-padding-large">Godziny otwarcia</a>
             <a data-scroll href="#about" class="w3-bar-item w3-button w3-padding-large">O Aptece</a>
-            <a data-scroll href="#patient" class="w3-bar-item w3-button w3-padding-large">Dla pacjenta</a>
             <a data-scroll href="#contact" class="w3-bar-item w3-button w3-padding-large">Kontakt i lokalizacja</a>
         </div>
         <!--<img class="logo" src="img\logo.png" class="w3-right-align">-->
     </div>
 
     <!-- Header -->
-    <header class="w3-container w3-center w3-padding-64-13">
+    <header id="home" class="w3-container w3-center w3-padding-64-13">
         <!--<h1 class="w3-margin w3-jumbo">START PAGE</h1>-->
         <!--<p class="w3-xlarge">Template by w3.css</p>-->
         <!--<button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button>-->
@@ -112,20 +119,65 @@
     <div id="hours" class="w3-row-padding w3-padding-64 w3-container">
         <div class="w3-content">
             <div class="w3-third w3-center">
-                <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
+                <i class="fa fa-clock-o w3-padding-64 w3-text-blue w3-margin-right"></i>
             </div>
 
             <div class="w3-twothird">
-                <h1>Lorem Ipsum</h1>
-                <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
-
-                <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur
-                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <h1>Godziny otwarcia</h1>
+                <h3></h3>
+                <h3 class="w3-padding-4">Pon. - Pt.: 8:00 - 20:00</h3>
+                <h3 class="w3-padding-4">Sobota:     9:00 - 20:00</h3>
+                <h3 class="w3-padding-4">Niedziela: 10:00 - 20:00</h3>
             </div>
         </div>
     </div>
 
+    <!-- Third Grid -->
+    <div id="about" class="w3-row-padding w3-light-blue w3-padding-64 w3-container">
+        <div class="w3-content">
+            <div class="w3-left-align">
+                <h1>O Aptece</h1>
+
+                <div class="w3-twothird">
+                    <p class="w3-text-black">Apteka "Centrum" jest jedną z najlepiej zaopatrzonych aptek w Poznaniu.
+                        Posiadamy szeroki asortyment leków na receptę, leków bez recepty, suplementów diety oraz dermokosmetyków.
+                        Specjalizujemy się w wykonywaniu leków recepturowych o szerokim spektrum działania, m.in. maści z proderminą i rtęcią.</p>
+                    <p class="w3-text-black">Zapewniamy profesjonalną, miłą i życzliwą obsługę.
+                        Wykwalifikowany personel zawsze jest do Państwa dyspozycji.</p>
+                    <p class="w3-text-black">Apteka "Centrum" posiada bardzo dogodną lokalizację.
+                        Mieści się w okolicy wielu linii komunikacyjnych (tramwaje linii 11, 14, 18, autobusy linii 64, 45).</p>
+                    <p class="w3-text-black">Z myślą o naszych pacjentach wydłużyliśmy godziny pracy apteki - pracujemy codziennie do godziny 20.00 (również w soboty i niedziele).</p>
+                    <p class="w3-text-black">Zapraszamy!!!</p>
+                </div>
+            </div>
+
+            <div class="w3-third w3-center">
+                <i class="fa fa-info-circle w3-padding-64 w3-text-white w3-margin-right"></i>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Fourth Grid -->
+    <div id="contact" class="w3-row-padding w3-padding-64 w3-container">
+        <div class="w3-content">
+            <div class="w3-third w3-center">
+                <i class="fa fa-map-marker w3-padding-64 w3-text-blue w3-margin-right"></i>
+            </div>
+
+            <div class="w3-twothird">
+                <h1>"Centrum" Apteka Leków Gotowych i Recepturowych"</h1>
+                <h3></h3>
+                <h3 class="w3-padding-4">ul. Głogowska 53</h3>
+                <h3 class="w3-padding-4">60-738 Poznań</h3>
+                <h3 class="w3-padding-4">tel.: 61 869 97 29</h3>
+                <h3 class="w3-padding-4">e-mail: apteka.centrum@op.pl</h3>
+            </div>
+        </div>
+        <div class="w3-content">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2434.4979314590614!2d16.902980102757773!3d52.39765131273705!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47045b2cb5f613d1%3A0x2b250cd59a8a97cf!2sApteka+Centrum!5e0!3m2!1spl!2spl!4v1490006794722" width="100%" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+    </div>
     <!--<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
         <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
     </div>-->
