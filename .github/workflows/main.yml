@@ -1,0 +1,10 @@
+on:
+  workflow_dispatch:
+jobs:
+  my_job:
+    name: transform
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ls
+      
