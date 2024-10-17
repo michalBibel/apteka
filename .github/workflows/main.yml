@@ -1,5 +1,7 @@
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - 'xslt/**.xml'
 jobs:
   my_job:
     name: transform
