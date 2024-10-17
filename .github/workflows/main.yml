@@ -1,6 +1,10 @@
 name: Transform apteka
 on:
   workflow_dispatch:
+    inputs:
+      file:
+        description: PR number
+        required: true
   push:
     paths:
       - 'xslt/**.xml'
@@ -34,6 +38,9 @@ jobs:
           for i in ${{ needs.list-files.outputs.paths }}; do
           echo $i
           done
+      
+      - name: Input print
+        run: echo ${{ inputs.file }}
       - name: Transform
         run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result/result_${{ steps.t1.outputs.day }}_${{ steps.t1.outputs.month }}_${{ steps.t1.outputs.year }}_${{ steps.t1.outputs.hours }}_${{ steps.t1.outputs.minutes }}_${{ steps.t1.outputs.seconds }}.html
       - name: Commit result
