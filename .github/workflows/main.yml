@@ -17,10 +17,7 @@ jobs:
           format: "YYYY_MM_DD HH_mm_ss_SSS"
       - name: Fetch action
         id: pl
-        uses: Rishabh510/Path-lister-action@master
-        with:
-          path: "xslt/"
-          type: ".xml"
+        run: Get-ChildItem -Path xslt -Name
 
       - name: Output results
         run: |
