@@ -15,6 +15,19 @@ jobs:
         uses: Kaven-Universe/github-action-current-date-time@v1
         with:
           format: "YYYY_MM_DD HH_mm_ss_SSS"
+      - name: Fetch action
+        id: pl
+        uses: Rishabh510/Path-lister-action@master
+        with:
+          path: "xslt/"
+          type: ".xml"
+
+      - name: Output results
+        run: |
+          echo "Found ${{ steps.pl.outputs.path_count }} file(s) with this extension:"
+          for i in ${{ steps.pl.outputs.paths }}; do
+          echo $i
+          done
       - name: Transform
         run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result/result_${{ steps.t1.outputs.day }}_${{ steps.t1.outputs.month }}_${{ steps.t1.outputs.year }}_${{ steps.t1.outputs.hours }}_${{ steps.t1.outputs.minutes }}_${{ steps.t1.outputs.seconds }}.html
       - name: Commit result
