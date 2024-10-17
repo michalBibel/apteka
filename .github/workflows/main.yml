@@ -7,7 +7,7 @@ on:
 jobs:
   my_job:
     name: transform
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result_17_10_2024.html
