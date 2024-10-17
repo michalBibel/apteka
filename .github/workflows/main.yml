@@ -16,7 +16,7 @@ jobs:
         with:
           format: "YYYY_MM_DD HH_mm_ss_SSS"
       - name: Fetch action
-        run: echo "paths=$(echo "ls")" >> $GITHUB_OUTPUT
+        run: echo "paths=$(echo "ls -R /xslt/")" >> $GITHUB_OUTPUT
         id: get_files
 
       - name: Output results
