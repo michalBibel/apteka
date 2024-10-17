@@ -1,9 +1,10 @@
 name: Transform apteka
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'xslt/**.xml'
+    inputs:
+      file:
+        description: Nazwa dodanego pliku
+        required: true
 jobs:
   my_job:
     name: transform
@@ -15,8 +16,10 @@ jobs:
         uses: Kaven-Universe/github-action-current-date-time@v1
         with:
           format: "YYYY_MM_DD HH_mm_ss_SSS"
+      - name: Input print
+        run: echo ${{ inputs.file }}
       - name: Transform
-        run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result/result_${{ steps.t1.outputs.day }}_${{ steps.t1.outputs.month }}_${{ steps.t1.outputs.year }}_${{ steps.t1.outputs.hours }}_${{ steps.t1.outputs.minutes }}_${{ steps.t1.outputs.seconds }}.html
+        run: xsltproc xslt/style.xsl xslt/${{ inputs.file }} > result/result_${{ steps.t1.outputs.day }}_${{ steps.t1.outputs.month }}_${{ steps.t1.outputs.year }}_${{ steps.t1.outputs.hours }}_${{ steps.t1.outputs.minutes }}_${{ steps.t1.outputs.seconds }}.html
       - name: Commit result
         run: |
           git add .
