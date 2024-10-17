@@ -9,9 +9,14 @@ jobs:
     name: transform
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4      
+      - name: Get date
+        id: t1
+        uses: Kaven-Universe/github-action-current-date-time@v1
+        with:
+          format: "YYYY_MM_DD HH_mm_ss_SSS"
       - name: Transform
-        run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result/result_17_10_2024.html
+        run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result/result_${{ steps.t1.outputs.day }}_${{ steps.t1.outputs.month }}_${{ steps.t1.outputs.year }}_${{ steps.t1.outputs.hours }}_${{ steps.t1.outputs.minutes }}_${{ steps.t1.outputs.seconds }}.html
       - name: Commit result
         run: |
           git add .
