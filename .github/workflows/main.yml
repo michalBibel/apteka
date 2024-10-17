@@ -16,7 +16,7 @@ jobs:
         with:
           repo: ${{ github.repository }}
           ref: ${{ github.ref }}
-          path: ".xslt"
+          path: "xslt"
           ext: ".xml"
   my_job:
     name: transform
