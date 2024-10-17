@@ -16,8 +16,8 @@ jobs:
         with:
           format: "YYYY_MM_DD HH_mm_ss_SSS"
       - name: Fetch action
-        id: pl
-        run: Get-ChildItem -Path xslt -Name
+        run: echo "ls –R 'xslt'" >> $GITHUB_OUTPUT
+        id: get_files
 
       - name: Output results
         run: |
