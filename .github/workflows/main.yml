@@ -22,9 +22,6 @@ jobs:
     name: transform
     runs-on: macos-latest
     needs: list-files
-    strategy:
-      matrix:
-        paths: ${{ fromJson(needs.list-files.outputs.paths) }}
     steps:
       - uses: actions/checkout@v4      
       - name: Get date
@@ -34,7 +31,9 @@ jobs:
           format: "YYYY_MM_DD HH_mm_ss_SSS"
       - name: Output results
         run: |
-          echo ${{ matrix.paths }}
+          for i in ${{ needs.list-files.outputs.paths }}; do
+          echo $i
+          done
       - name: Transform
         run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result/result_${{ steps.t1.outputs.day }}_${{ steps.t1.outputs.month }}_${{ steps.t1.outputs.year }}_${{ steps.t1.outputs.hours }}_${{ steps.t1.outputs.minutes }}_${{ steps.t1.outputs.seconds }}.html
       - name: Commit result
