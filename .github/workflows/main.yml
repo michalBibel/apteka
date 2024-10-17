@@ -10,5 +10,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result_17_10_2024.html
-      - run: ls
+      - name: Transform
+        run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result/result_17_10_2024.html
+      - name: Commit result
+        run: |
+          git commit -am "Push result"
+          git push
