@@ -1,3 +1,4 @@
+name: Transform apteka
 on:
   push:
     paths:
