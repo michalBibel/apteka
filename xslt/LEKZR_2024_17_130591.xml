@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><?xml-stylesheet type="text/xsl" href="#"?><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:sv="http://www.nfz.gov.pl/xml/ow-ow/View/Sign/Short_v1_0" xmlns:u="http://www.nfz.gov.pl/xml/swd-platnik/e-dok-rozlicz/lekzr/v1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0">
+		
+		
+	<xsl:output doctype-public="-//W3C//DTD HTML 4.01//EN" doctype-system="http://www.w3.org/TR/html4/strict.dtd" encoding="UTF-8" indent="yes" method="html" version="4.01"/>
+	<xsl:template name="TytulDokumentu">e-LEKZR</xsl:template>
+	<xsl:variable name="vFormatKwota">
+		<xsl:text>### ##0,00</xsl:text>
+	</xsl:variable>
+	<xsl:decimal-format decimal-separator="," grouping-separator=" " name="FormatDziesietny"/>
+	
+	<xsl:template match="/">
+		<xsl:apply-templates/>
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='komunikat']">
+		<xsl:call-template name="StyleWspolne"/>
+		<body>
+			<div id="Dokument">
+				<div id="Komunikat">
+							<xsl:apply-templates/>
+							<div class="row row50">
+							<div class="box_r "> 
+								<xsl:if test="../*[local-name()='Signature']"> 
+									<div class="stempel "> Dokument podpisany elektronicznie</div> 
+									<div class="stempel "> <xsl:text>Ilość podpisów: </xsl:text> <xsl:value-of select="count(../*[local-name()='Signature'])"/></div> 
+								</xsl:if> 
+							</div> 
+							</div>
+				</div>
+			</div>
+		</body>
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='naglowek-dok']">
+	
+		<div class="rowt row25">
+				<div class="box_l" id="Tyt">ZESTAWIENIE ZBIORCZE RECEPT NA LEKI,<br/>ŚRODKI SPOŻYWCZE SPECJALNEGO PRZEZNACZENIA ŻYWIENIOWEGO,<br/>WYROBY MEDYCZNE</div>
+		</div>
+		
+		<xsl:apply-templates/>
+		
+		<div class="rowt row50">
+				<div class="box_l" id="Tyt2">I.  ZESTAWIENIE ZBIORCZE RECEPT NA LEKI, ŚRODKI SPOŻYWCZE
+					<br/>SPECJALNEGO PRZEZNACZENIA ŻYWIENIOWEGO, WYROBY MEDYCZNE <br/>OBJĘTE REFUNDACJĄ</div>
+		</div>
+		
+		<div class="rowt row25">
+				<div class="box_l" id="Tyt"> <xsl:if test="@typ-dok = 'K'"> <xsl:text>Korekta </xsl:text> </xsl:if> Nr <xsl:value-of select="@numer-dok"/></div>
+		</div>
+		
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='podmiot']">
+		<div class="row row50">
+			<div class="nagl">Podmiot prowadzący aptekę:</div>
+		</div>
+		<div class="row">
+			<xsl:value-of select="@nazwa"/><xsl:text>, </xsl:text> 
+			<xsl:value-of select="*[local-name()='adres']/@adres"/><xsl:text>, </xsl:text> 
+			<xsl:value-of select="*[local-name()='adres']/@kod-pocztowy"/><xsl:text> </xsl:text> 
+			<xsl:value-of select="*[local-name()='adres']/@miejscowosc"/>
+			
+		</div>
+		<xsl:apply-templates/>
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='apteka']">
+		<div class="row row15">
+				<div class="nagl">Nazwa i adres apteki:</div>
+		</div>
+		<div class="row">
+			<xsl:value-of select="@nazwa"/>
+			<xsl:for-each select="*[local-name()='adres']">
+					<xsl:call-template name="adres"/>
+			</xsl:for-each>
+		</div>
+		<div class="row">
+			<div class="box_l nagl">Numer REGON: </div>
+			<div class="box_l " style="padding-left: 5px;"><xsl:value-of select="@regon"/></div> 
+			<div class="box_l nagl" style="padding-left: 10px;">NIP:</div>
+			<div class="box_l " style="padding-left: 5px;"><xsl:value-of select="@nip"/></div>
+		</div>
+		<div class="row">
+			<div class="box_l nagl">Identyfikator apteki: </div>
+			<div class="box_l " style="padding-left: 5px;"><xsl:value-of select="../../../@id-apteki"/></div> 
+		</div>
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='nabywca']">
+
+		<div class="row row15">
+			<div class="nagl tyt">Podmiot zobowiązany do finansowania świadczeń ze środków publicznych:</div>
+		</div>
+		<div class="row">
+			<div class="nagl tyt">Nabywca:</div>
+		</div>
+		<div class="row">
+			<xsl:value-of select="@nazwa"/>
+			<xsl:for-each select="*[local-name()='adres']">
+				<xsl:call-template name="adres"/>
+			</xsl:for-each>
+			<xsl:text>, NIP:</xsl:text>
+			<xsl:value-of select="@nip"/>
+		</div>
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='odbiorca']">
+		<div class="row row15">
+			<div class="nagl tyt">Odbiorca - płatnik:</div>
+		</div>
+		<div class="row">
+			<xsl:value-of select="@nazwa"/>
+			<xsl:for-each select="*[local-name()='adres']">
+				<xsl:call-template name="adres"/>
+			</xsl:for-each>
+		</div>
+	</xsl:template>	
+	
+	<!--<xsl:template match="*[local-name()='adres']" >-->
+	<xsl:template name="adres">
+		<xsl:text>, </xsl:text><xsl:value-of select="@adres"/> 
+		<xsl:text>, </xsl:text> <xsl:value-of select="@kod-pocztowy"/> 
+		<xsl:text>  </xsl:text> <xsl:value-of select="@miejscowosc"/>  
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='pozycje']">
+		<xsl:apply-templates/>
+		<xsl:call-template name="Osw"/>
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='czesc-a-zest']">
+		<div class="row row15">
+			<div class="nagl tyt">CZĘŚĆ A</div>
+		</div>
+		<div class="row row15">
+			<div>Zrealizowanych w okresie Nr <xsl:value-of select="../../*[local-name()='naglowek-dok']/@okres-nr"/>  od <xsl:value-of select="../../*[local-name()='naglowek-dok']/@okres-od"/> do 
+				<xsl:value-of select="../../*[local-name()='naglowek-dok']/@okres-do"/> w oddziale wojewódzkim Narodowego Funduszu Zdrowia - 
+				<xsl:call-template name="OwNfz"><xsl:with-param name="pOw" select="../../*[local-name()='naglowek-dok']/@umowa-oddzial"/></xsl:call-template> 
+				- dla osób uprawnionych zgodnie z przepisami ustawy z dnia 27 sierpnia 2004 r. o świadczeniach opieki zdrowotnej finansowanych ze środków publicznych (Dz. U. z 2017 r. poz. 1938, z późn. zm.)
+			</div>
+		</div>
+		<div class="row  row15">
+			<table>
+				<tbody>
+					<tr>
+						<th>Lp.</th>
+						<th>Rodzaj</th>
+						<th>Liczba pozycji leków, <br/>środków spożywczych <br/>specjalnego<br/>przeznaczenia<br/>żywieniowego, wyrobów<br/>medycznych<br/>zrealizowanych na<br/>podstawie recept</th>
+						<th>Wartość leków, środków <br/>spożywczych specjalnego<br/>przeznaczenia<br/>żywieniowego, wyrobów<br/>medycznych<br/>zrealizowanych na<br/>podstawie recept</th>
+						<th>Dopłata<br/>wniesiona przez<br/>świadczeniobiorcę</th>
+						<th>Kwota<br/>podlegająca<br/>refundacji</th>
+					</tr>
+					<tr>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+						<th>5</th>
+						<th>6</th>
+					</tr>
+					<xsl:apply-templates>
+						<xsl:with-param name="p_part" select="'A'"/>
+					</xsl:apply-templates>
+					<tr>
+						<td style="text-align:left">Razem:</td>
+						<td><xsl:value-of select="@liczba-recept"/></td>
+						<td><xsl:value-of select="@liczba-pozycji"/></td>
+						<td><xsl:value-of select="format-number(@wartosc, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text></td>
+						<td><xsl:value-of select="format-number(@doplata, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text></td>
+						<td><xsl:value-of select="format-number(@refundacja, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<xsl:call-template name="Slownie"/>
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='czesc-b-zest']">
+		<div class="row row15">
+			<div class="nagl tyt">CZĘŚĆ B</div>
+		</div>
+		<div class="row row15">
+			<div>Zrealizowanych w okresie Nr <xsl:value-of select="../../*[local-name()='naglowek-dok']/@okres-nr"/> od 
+			<xsl:value-of select="../../*[local-name()='naglowek-dok']/@okres-od"/> do <xsl:value-of select="../../*[local-name()='naglowek-dok']/@okres-do"/> 
+			w oddziale wojewódzkim Narodowego Funduszu Zdrowia - <xsl:call-template name="OwNfz"><xsl:with-param name="pOw" select="../../*[local-name()='naglowek-dok']/@umowa-oddzial"/></xsl:call-template> 
+			- dla osób uprawnionych do świadczeń opieki zdrowotnej na podstawie przepisów o koordynacji</div>
+		</div>
+		<div class="row  row15">
+			<table>
+				<tbody>
+					<tr>
+						<th style="">Lp.</th>
+						<th>Symbol kraju<br/>instytucji<br/>właściwej</th>
+						<th>Numer poświadczenia<br/>lub numer dokumentu<br/>osoby uprawnionej do<br/>świadczeń opieki<br/>zdrowotnej na<br/>podstawie przepisów o<br/>koordynacji</th>
+						<th>Liczba recept</th>
+						<th>Liczba pozycji</th>
+						<th>Wartość leków,<br/>środków spożywczych<br/>specjalnego<br/>przeznaczenia<br/>żywieniowego,<br/>wyrobów medycznych<br/>zrealizowanych na<br/>podstawie recept</th>
+						<th>Dopłata wniesiona<br/>przez osobe<br/>uprawnioną do<br/>świadczeń opieki<br/>zdrowotnej na<br/>podstawie przepisów o<br/>koordynacji</th>
+						<th>Kwota<br/>podlegająca<br/>refundacji</th>
+					</tr>
+					<tr>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+						<th>5</th>
+						<th>6</th>
+						<th>7</th>
+						<th>8</th>
+					</tr>
+					<xsl:apply-templates>
+						<xsl:with-param name="p_part" select="'B'"/>
+					</xsl:apply-templates>
+					<tr>
+						<td colspan="2" style="text-align:left">Razem:</td>
+						<td/>
+						<td><xsl:value-of select="@liczba-recept"/></td>
+						<td><xsl:value-of select="@liczba-pozycji"/></td>
+						<td><xsl:value-of select="format-number(@wartosc, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text></td>
+						<td><xsl:value-of select="format-number(@doplata, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text></td>
+						<td><xsl:value-of select="format-number(@refundacja, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<xsl:call-template name="Slownie"/>
+	</xsl:template>
+	
+	<xsl:template match="*[local-name()='pozycja-zb']">
+		<xsl:param name="p_part"/>	
+		<xsl:choose>
+					<xsl:when test="$p_part='A'">
+						<xsl:call-template name="RowA"/>
+					</xsl:when>
+					<xsl:when test="$p_part='B'">
+						<xsl:call-template name="RowB"/>
+					</xsl:when>
+					<xsl:otherwise/>
+		</xsl:choose>
+		
+		
+		<xsl:apply-templates/>
+	</xsl:template>
+	
+	<xsl:template name="RowA">
+	<tr>
+			<td style="text-align:center;">
+				<xsl:value-of select="@lp"/>
+			</td>
+			<td style="text-align:left;">
+				<xsl:value-of select="@rodzaj"/>
+			</td>
+			<td>
+				<xsl:value-of select="@liczba-pozycji"/>
+			</td>
+			<td>
+				<xsl:value-of select="format-number(@wartosc, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text>
+			</td>
+			<td>
+				<xsl:value-of select="format-number(@doplata, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text>
+			</td>
+			<td>
+				<xsl:value-of select="format-number(@refundacja, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text>
+			</td>
+		</tr>
+	</xsl:template>
+	
+	<xsl:template name="RowB">
+	<tr>
+			<td style="text-align:center;">
+				<xsl:value-of select="@lp"/>
+			</td>
+			<td style="text-align:left;">
+				<xsl:value-of select="@platnik"/>
+			</td>
+			<td style="text-align:left;">
+				<xsl:value-of select="@nr"/>
+			</td>
+			<td>
+				<xsl:value-of select="@liczba-recept"/>
+			</td>
+			<td>
+				<xsl:value-of select="@liczba-pozycji"/>
+			</td>
+			<td>
+				<xsl:value-of select="format-number(@wartosc, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text>
+			</td>
+			<td>
+				<xsl:value-of select="format-number(@doplata, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text>
+			</td>
+			<td>
+				<xsl:value-of select="format-number(@refundacja, $vFormatKwota, 'FormatDziesietny')"/><xsl:text> zł</xsl:text>
+			</td>
+	</tr>
+	</xsl:template>
+	
+	<xsl:template name="Slownie">
+		<div class="row row15">
+			<div class="nagl tyt box_l"><xsl:text>Do zapłaty (słownie):   </xsl:text></div><div><xsl:value-of select="@do-zaplaty-slownie"/></div>
+		</div>
+		<div class="row">
+			<div class="nagl tyt box_l"><xsl:text>Data sporządzenia zestawienia:  </xsl:text></div><div><xsl:value-of select="../../*[local-name()='naglowek-dok']/@data-wystawienia"/></div>
+		</div>
+	</xsl:template>
+	
+	<xsl:template name="Osw">
+		<div class="row row15">
+			<div><xsl:text>Oświadczam, że wyżej wymieniona kwota wynika z treści recept podlegających refundacji wystawionych i zrealizowanych
+zgodnie z odrębnymi przepisami oraz z treści innych dokumentów fiskalno-księgowych, w szczególności paragonów fiskalnych.</xsl:text></div>
+		</div>
+	</xsl:template>
+	
+	<xsl:template name="OwNfz">
+		<xsl:param name="pOw"/>
+		<xsl:choose>
+					<xsl:when test="$pOw='01'">
+						<xsl:text>Dolnośląski Oddział Narodowego Funduszu Zdrowia we Wrocławiu</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='02'">
+						<xsl:text>Kujawsko-Pomorski Oddział Narodowego Funduszu Zdrowia w Bydgoszczy</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='03'">
+						<xsl:text>Lubelski Oddział Narodowego Funduszu Zdrowia w Lublinie</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='04'">
+						<xsl:text>Lubuski Oddział Narodowego Funduszu Zdrowia w Zielonej Górze</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='05'">
+						<xsl:text>Łódzki Oddział Narodowego Funduszu Zdrowia w Łodzi</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='06'">
+						<xsl:text>Małopolski Oddział Narodowego Funduszu Zdrowia w Krakowie</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='07'">
+						<xsl:text>Mazowiecki Oddział Narodowego Funduszu Zdrowia w Warszawie</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='08'">
+						<xsl:text>Opolski Oddział Narodowego Funduszu Zdrowia w Opolu</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='09'">
+						<xsl:text>Podkarpacki Oddział Narodowego Funduszu Zdrowia w Rzeszowie</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='10'">
+						<xsl:text>Podlaski Oddział Narodowego Funduszu Zdrowia w Białymstoku</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='11'">
+						<xsl:text>Pomorski Oddział Narodowego Funduszu Zdrowia w Gdańsku</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='12'">
+						<xsl:text>Śląski Oddział Narodowego Funduszu Zdrowia w Katowicach</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='13'">
+						<xsl:text>Świętokrzyski Oddział Narodowego Funduszu Zdrowia w Kielcach</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='14'">
+						<xsl:text>Warmińsko-Mazurski Oddział Narodowego Funduszu Zdrowia w Olsztynie</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='15'">
+						<xsl:text>Wielkopolski Oddział Narodowego Funduszu Zdrowia w Poznaniu</xsl:text>
+					</xsl:when>
+					<xsl:when test="$pOw='16'">
+						<xsl:text>Zachodniopomorski Oddział Narodowego Funduszu Zdrowia w Szczecinie</xsl:text>
+					</xsl:when>
+					
+					<xsl:otherwise/>
+		</xsl:choose>
+	</xsl:template>
+	
+	<xsl:template name="StyleWspolne">
+	
+		<head>
+			<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+			<style type="text/css">
+					body { font-family:Arial; }
+					#Dokument{ align:center; }
+					#Komunikat { clear: both; font-size:22px;  width: 950px; float:center; margin: 0px auto;  padding: 80px;} 
+					#Dnia {text-align: left;   width: 33%; }
+					#Tyt {text-align: Center;   width: 100%; font-weight: bold; padding-top: 25px;}
+					#Tyt2 {text-align: Center;   width: 100%; padding-top: 25px;}
+					.box_r {  float: right;  }
+					.box_l {  float: left;  }
+					.row{  clear: both; position: relative; width: 950px;   float: none; font-size:15px;  }
+					.rowt{  clear: both; position: relative; width: 950px;   float: none;}
+					.row15{ padding-top: 15px;}
+					.row25{ padding-top: 25px;}
+					.row50{ padding-top: 50px;}
+					.nagl {text-align: left;  font-weight: bold; }
+					.nagl.tyt { font-size:16px; }
+					.stempel {text-align: center;  font-weight: bold;   width: 100%; }
+					
+					
+					table {font-size:15px; width: 950px; border:solid 2px #000;}
+					table th{background-color: #cccccc;}
+					table, td {  border: 1px solid black;  text-align:right; padding:2px; border-collapse: collapse; }
+					table, th {  border: 1px solid black;  text-align:center; padding:2px; border-collapse: collapse; }
+
+
+					
+					
+					
+					#Art {text-align: justify;   width: 100%; padding-top: 25px; }
+					
+						
+					
+
+		</style>
+		</head>
+	</xsl:template>
+	
+	<xsl:template match="ds:Signature">
+	<xsl:apply-templates/>
+	</xsl:template>
+	
+	<xsl:template match="ds:X509Certificate">
+		<xsl:if test="text()|@*">
+    </xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="text()|@*"> 
+	</xsl:template>
+	
+	<xsl:template match="sv:DynamGenPodpisyInfo">
+		<div class="row">
+			<div class="box_r row50">
+				<xsl:apply-templates/>		
+			</div>
+		</div>	
+	</xsl:template>
+
+	<xsl:template match="sv:Podpis">
+				<div class="stempel "> <xsl:value-of select="@osoba-podpisujaca"/> </div>
+	</xsl:template>
+	
+<komunikat xmlns="http://www.nfz.gov.pl/xml/swd-platnik/e-dok-rozlicz/lekzr/v1.1" czas-gen="2024-09-17T16:48:47.897" id-apteki="150008896" id-inst="SZOI" id-odb="15" nr-gen="130591" typ="LEKZR" wersja="1.1">
+    <naglowek-dok data-wystawienia="2024-09-17" duplikat="N" interpretacja-dok="DE" nr-pierw-umowy="150008896120002" nr-umowy="150008896120002" numer-dok="446034/17/2024" okres-do="2024-09-15" okres-nr="17" okres-od="2024-09-01" rok-rozlicz="2024" typ-dok="P" umowa-oddzial="15">
+        <podmiot nazwa="&quot;CENTRUM&quot; APTEKA LEKÓW GOTOWYCH I RECEPTUROWYCH ALEKSANDRA BALCEROWICZ-BIBEL I JERZY BALCEROWICZ S.C." nip="7831676927" regon="301797853">
+            <adres adres="GŁOGOWSKA 53" kod-pocztowy="60-738" miejscowosc="POZNAŃ-GRUNWALD"/>
+            <apteka nazwa="&quot;CENTRUM&quot;" nip="7831676927" regon="301797853">
+                <adres adres="GŁOGOWSKA 53" kod-pocztowy="60-738" miejscowosc="POZNAŃ"/>
+            </apteka>
+        </podmiot>
+        <nabywca nazwa="NARODOWY FUNDUSZ ZDROWIA Z SIEDZIBĄ W WARSZAWIE" nip="1070001057">
+            <adres adres="RAKOWIECKA 26/30" kod-pocztowy="02-528" miejscowosc="WARSZAWA"/>
+        </nabywca>
+        <odbiorca nazwa="WIELKOPOLSKI ODDZIAŁ WOJEWÓDZKI NARODOWEGO FUNDUSZU ZDROWIA Z SIEDZIBĄ W POZNANIU">
+            <adres adres="PIEKARY 14/15" kod-pocztowy="61-823" miejscowosc="POZNAŃ"/>
+        </odbiorca>
+        <na-podst-szablonu id-szablonu="446034"/>
+    </naglowek-dok>
+    <pozycje>
+        <czesc-a-zest do-zaplaty-slownie="dwadzieścia siedem tysięcy dziewięćset pięćdziesiąt pięć złotych osiemnaście groszy" doplata="5730.40" liczba-pozycji="584" liczba-recept="584" refundacja="27955.18" wartosc="33685.58">
+            <pozycja-zb doplata="5730.40" liczba-pozycji="584" lp="1" refundacja="27955.18" rodzaj="Leki, środki spożywcze specjalnego przeznaczenia żywieniowego,wyroby medyczne" wartosc="33685.58"/>
+            <pozycja-zb doplata="0.00" liczba-pozycji="0" lp="2" refundacja="0.00" rodzaj="Import docelowy - leki" wartosc="0.00"/>
+            <pozycja-zb doplata="0.00" liczba-pozycji="0" lp="3" refundacja="0.00" rodzaj="Import docelowy - środki spożywcze specjalnego przeznaczenia żywieniowego" wartosc="0.00"/>
+        </czesc-a-zest>
+    </pozycje>
+</komunikat>
+
+<ds:Signature Id="Signature-e7dc1dc4-5e3e-45d8-8c7f-487c35813295" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116"><ds:XPath xmlns:ds="http://www.w3.org/2000/09/xmldsig#">not(ancestor-or-self::ds:Signature)</ds:XPath></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>67ijG8kdfOd0vy96AVU8PEjEwrbH4iK6Lx+zf671qxU=</ds:DigestValue></ds:Reference><ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#SignedProps-e7dc1dc4-5e3e-45d8-8c7f-487c35813295"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>p/I8zyzOPQ1PcBjqDU/R2kcTZhzaJgFNC7o+rCaC45A=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue Id="SignatureValue-e7dc1dc4-5e3e-45d8-8c7f-487c35813295">TDxfsUTmdzEAcsVv1o0MX8rVf2zm0aKzz69C6gD4k6ZqY3VPeJviEBcJt5o+xtyTJai3eUTJ2sNDX1t5lRi29XXQP4S8T9qlDqhnIQfvFhQh+AU5O0p2dTUVtZtJTHfdzwW6tZaz5SDlxRYcNDcygaLkVjHLPYd+9XS85c9cnp4h/beqYQzXRIBoNM2CZDi4LdWj5gdI+PWLOpHa09ojTJc6NWJfINu0EbVQ2dAaH1Yq+/hqwz33ik013EEmn8fz7pehty+ErH/OiPCSPJpW6S1cS3YPD8bztAIMXjdxLXCos3Iy5bkxdKdfnzD6wADO2yNLWlK2lCAq+anOmEKNYQ==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>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</ds:X509Certificate></ds:X509Data></ds:KeyInfo><ds:Object Id="QualifyingInfos-e7dc1dc4-5e3e-45d8-8c7f-487c35813295"><xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="QualifyingProps-e7dc1dc4-5e3e-45d8-8c7f-487c35813295" Target="#Signature-e7dc1dc4-5e3e-45d8-8c7f-487c35813295"><xades:SignedProperties Id="SignedProps-e7dc1dc4-5e3e-45d8-8c7f-487c35813295"><xades:SignedSignatureProperties><xades:SigningTime>2024-09-17T16:49:50.613+02:00</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>oB5cVe844NVVRs0BJuC1s9HnioQZsnMztAUTvHTal2I=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Centrum Kwalifikowane EuroCert,O=EuroCert Sp. z o.o.,C=PL,2.5.4.97=#0c10564154504c2d39353132333532333739</ds:X509IssuerName><ds:X509SerialNumber>20892124217292921814138920212746575688618877</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate><xades:SignaturePolicyIdentifier><xades:SignaturePolicyImplied/></xades:SignaturePolicyIdentifier><xades:SignerRole><xades:ClaimedRoles><xades:ClaimedRole><pz:EPSignature xmlns:pz="http://crd.gov.pl/xml/schematy/podpis_zaufany/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#"><pz:NaturalPerson><pz:CurrentFamilyName>BALCEROWICZ-BIBEL</pz:CurrentFamilyName><pz:FirstName>ALEKSANDRA</pz:FirstName><pz:DateOfBirth>1988-07-31</pz:DateOfBirth><pz:PersonalIdentifier>88073104324</pz:PersonalIdentifier></pz:NaturalPerson><pz:SignatureData><pz:IdentityIssuer>edowod.gov.pl</pz:IdentityIssuer><pz:IdentityIssueTimestamp>2024-09-17T16:49:50.617+02:00</pz:IdentityIssueTimestamp></pz:SignatureData></pz:EPSignature></xades:ClaimedRole></xades:ClaimedRoles></xades:SignerRole></xades:SignedSignatureProperties></xades:SignedProperties></xades:QualifyingProperties></ds:Object></ds:Signature></xsl:stylesheet>
