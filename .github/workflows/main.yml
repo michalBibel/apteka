@@ -1,5 +1,6 @@
 name: Transform apteka
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'xslt/**.xml'
