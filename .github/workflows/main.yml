@@ -3,29 +3,12 @@ on:
   workflow_dispatch:
     inputs:
       file:
-        description: PR number
+        description: Nazwa dodanego pliku
         required: true
-  push:
-    paths:
-      - 'xslt/**.xml'
 jobs:
-  list-files:
-    runs-on: ubuntu-latest
-    outputs:
-      paths: ${{ steps.list-files.outputs.paths }}
-    steps:
-      - name: List Files
-        id: list-files
-        uses: mirko-felice/list-files-action@v3.0.5
-        with:
-          repo: ${{ github.repository }}
-          ref: ${{ github.ref }}
-          path: "xslt"
-          ext: ".xml"
   my_job:
     name: transform
     runs-on: macos-latest
-    needs: list-files
     steps:
       - uses: actions/checkout@v4      
       - name: Get date
@@ -33,16 +16,10 @@ jobs:
         uses: Kaven-Universe/github-action-current-date-time@v1
         with:
           format: "YYYY_MM_DD HH_mm_ss_SSS"
-      - name: Output results
-        run: |
-          for i in ${{ needs.list-files.outputs.paths }}; do
-          echo $i
-          done
-      
       - name: Input print
         run: echo ${{ inputs.file }}
       - name: Transform
-        run: xsltproc xslt/style.xsl xslt/LEKZR_2024_19_132733.xml > result/result_${{ steps.t1.outputs.day }}_${{ steps.t1.outputs.month }}_${{ steps.t1.outputs.year }}_${{ steps.t1.outputs.hours }}_${{ steps.t1.outputs.minutes }}_${{ steps.t1.outputs.seconds }}.html
+        run: xsltproc xslt/style.xsl xslt/${{ inputs.file }} > result/result_${{ steps.t1.outputs.day }}_${{ steps.t1.outputs.month }}_${{ steps.t1.outputs.year }}_${{ steps.t1.outputs.hours }}_${{ steps.t1.outputs.minutes }}_${{ steps.t1.outputs.seconds }}.html
       - name: Commit result
         run: |
           git add .
